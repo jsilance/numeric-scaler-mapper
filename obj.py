@@ -20,14 +20,21 @@ class Module:
 		self.out_image = cv2.resize(self.image, self.out_size)
 
 	def up(self):
-		self.pos = (self.pos[0], self.pos[1] - 2)
-		self.endpoint = (self.endpoint[0], self.endpoint[1] - 2)
+		self.pos = (self.pos[0], self.pos[1] - 10)
+		self.endpoint = (self.endpoint[0], self.endpoint[1] - 10)
 	def left(self):
-		self.pos = (self.pos[0] - 2, self.pos[1])
-		self.endpoint = (self.endpoint[0] - 2, self.endpoint[1])
+		self.pos = (self.pos[0] - 10, self.pos[1])
+		self.endpoint = (self.endpoint[0] - 10, self.endpoint[1])
 	def down(self):
-		self.pos = (self.pos[0], self.pos[1] + 2)
-		self.endpoint = (self.endpoint[0], self.endpoint[1] + 2)
+		self.pos = (self.pos[0], self.pos[1] + 10)
+		self.endpoint = (self.endpoint[0], self.endpoint[1] + 10)
 	def right(self):
-		self.pos = (self.pos[0] + 2, self.pos[1])
-		self.endpoint = (self.endpoint[0] + 2, self.endpoint[1])
+		self.pos = (self.pos[0] + 10, self.pos[1])
+		self.endpoint = (self.endpoint[0] + 10, self.endpoint[1])
+
+	def rotate_in(self):
+		self.rot = self.rot % 360
+		self.rot += 15
+	def rotate_out(self):
+		self.rot = self.rot % 360
+		self.out_rot += 15
