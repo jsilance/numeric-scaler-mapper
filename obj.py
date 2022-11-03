@@ -10,7 +10,7 @@ class Module:
 
 		self.out_pos = (0, 0)
 		self.out_size = p_out_size
-		self.out_rot = (0, 0)
+		self.out_rot = 0
 		self.out_endpoint = tuple(map(sum, zip(self.out_pos, self.out_size)))
 
 		self.image = ""

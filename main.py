@@ -69,8 +69,6 @@ def controls():
 		rectMod.pop()
 	elif key == ord('0') and len(rectMod) > 0:
 		rectMod.clear()
-	elif key == 27:
-		return 1
 	elif key == ord('w'):
 		rectMod[len(rectMod) - 1].up()
 	elif key == ord('a'):
@@ -81,6 +79,10 @@ def controls():
 		rectMod[len(rectMod) - 1].right()
 	elif key == ord('r'):
 		rectMod[len(rectMod) - 1].rotate_in()
+	elif key == 27:
+		return 1
+	if not cv2.getWindowProperty("Secret Capture", cv2.WND_PROP_VISIBLE):
+		return 1
 
 
 def mod_aquire(img):
