@@ -15,14 +15,14 @@ cvui.init(WINDOW_NAME)
 id = [0]
 x_in = [0]
 y_in = [0]
-x_size_in = [0]
-y_size_in = [0]
+x_size_in = [128]
+y_size_in = [64]
 r_in = [0]
 
 x_out = [0]
 y_out = [0]
-x_size_out = [0]
-y_size_out = [0]
+x_size_out = [80]
+y_size_out = [40]
 r_out = [0]
 
 col = [0]
@@ -75,10 +75,6 @@ def json_init_data(offset_x, offset_y, column, row):
 	data["modules"] = {}
 	return data
 
-def json_loader(data):
-	global id, x_in, y_in, x_size_in, y_size_in, r_in, x_out, y_out, x_size_out, y_size_out, r_out, col, lin, offset_x, offset_y
-	pass
-
 mod = []
 
 if not os.path.exists("config.json"):
@@ -95,7 +91,7 @@ while True:
 	frame[:] = (49, 52, 49)
 
 	if len(mod) -1 < id[0]:
-		mod.append(Gui_mod(0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+		mod.append(Gui_mod(x_in[0], y_in[0], x_size_in[0], y_size_in[0], r_in[0], x_out[0], y_out[0], x_size_out[0], y_size_out[0], r_out[0]))
 
 
 # -------------------------INPUT------------------------------
@@ -119,15 +115,15 @@ while True:
 	cvui.text(frame, 10, 145, 'X Size:')
 	x_size_in[0] = mod[id[0]].size_x
 	cvui.counter(frame, 90, 140, x_size_in)
-	if (x_size_in[0] < 0):
-		x_size_in[0] = 0
+	if (x_size_in[0] < 1):
+		x_size_in[0] = 1
 	mod[id[0]].size_x = x_size_in[0]
 
 	cvui.text(frame, 10, 175, 'Y Size:')
 	y_size_in[0] = mod[id[0]].size_y
 	cvui.counter(frame, 90, 170, y_size_in)
-	if (y_size_in[0] < 0):
-		y_size_in[0] = 0
+	if (y_size_in[0] < 1):
+		y_size_in[0] = 1
 	mod[id[0]].size_y = y_size_in[0]
 
 	cvui.text(frame, 10, 205, 'Rotation:')
@@ -159,15 +155,15 @@ while True:
 	cvui.text(frame, 210, 145, 'X Size:')
 	x_size_out[0] = mod[id[0]].out_size_x
 	cvui.counter(frame, 290, 140, x_size_out)
-	if (x_size_out[0] < 0):
-		x_size_out[0] = 0
+	if (x_size_out[0] < 1):
+		x_size_out[0] = 1
 	mod[id[0]].out_size_x = x_size_out[0]
 
 	cvui.text(frame, 210, 175, 'Y Size:')
 	y_size_out[0] = mod[id[0]].out_size_y
 	cvui.counter(frame, 290, 170, y_size_out)
-	if (y_size_out[0] < 0):
-		y_size_out[0] = 0
+	if (y_size_out[0] < 1):
+		y_size_out[0] = 1
 	mod[id[0]].out_size_y = y_size_out[0]
 
 	cvui.text(frame, 210, 205, 'Rotation:')
@@ -200,6 +196,18 @@ while True:
 	cvui.counter(frame, 540, 110, offset_y)
 	if (offset_y[0] < 0):
 		offset_y[0] = 0
+
+	if cvui.button(frame, 170, 5, "Smart config"):
+		if (id[0] > 0):
+			mod[id[0]].pos_x = mod[id[0] - 1].pos_x + mod[id[0] - 1].size_x
+			mod[id[0]].out_pos_x = mod[id[0] - 1].out_pos_x + mod[id[0] - 1].out_size_x
+			if (id[0] % col[0] == 0):
+				mod[id[0]].pos_x = mod[0].pos_x
+				dim =  mod[id[0] - col[0]].pos_y + mod[id[0] - col[0] + 1].size_y
+				mod[id[0]].pos_y = mod[id[0] - col[0]].pos_y + mod[id[0] - col[0] + 1].size_y
+			if (id[0] % col[0] == 0):
+				mod[id[0]].out_pos_x = mod[0].out_pos_x
+				mod[id[0]].out_pos_y = mod[id[0] - col[0] + 1].out_pos_y + mod[id[0] - col[0] + 1].out_size_y
 
 	if cvui.button(frame, 500, 340, "Reset configuration"):
 		os.remove("config.json")

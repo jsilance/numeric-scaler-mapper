@@ -1,6 +1,7 @@
 import json 
 
 class Gui_mod:
+
 	def __init__(self, in_pos_x, in_pos_y, in_size_x, in_size_y, in_rot, out_pos_x, out_pos_y, out_size_x, out_size_y, out_rot):
 		self.pos_x = in_pos_x
 		self.pos_y = in_pos_y
@@ -45,5 +46,5 @@ def json_to_gui_mod(data):
 	rows.append(data["row"])
 	mod = []
 	for i in data["modules"]:
-		mod.append(Gui_mod(data["modules"][i]["in_pos_x"], data["modules"][i]["in_pos_y"], data["modules"][i]["in_size_x"], data["modules"][i]["in_pos_y"], data["modules"][i]["in_rotation"], data["modules"][i]["out_pos_x"], data["modules"][i]["out_pos_y"], data["modules"][i]["out_size_x"], data["modules"][i]["out_pos_y"], data["modules"][i]["out_rotation"]))
+		mod.append(Gui_mod(data["modules"][i]["in_pos_x"], data["modules"][i]["in_pos_y"], data["modules"][i]["in_size_x"], data["modules"][i]["in_size_y"], data["modules"][i]["in_rotation"], data["modules"][i]["out_pos_x"], data["modules"][i]["out_pos_y"], data["modules"][i]["out_size_x"], data["modules"][i]["out_size_y"], data["modules"][i]["out_rotation"]))
 	return mod, off_x, off_y, columns, rows
