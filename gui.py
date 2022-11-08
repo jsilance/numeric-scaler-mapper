@@ -15,14 +15,14 @@ cvui.init(WINDOW_NAME)
 id = [0]
 x_in = [0]
 y_in = [0]
-x_size_in = [128]
-y_size_in = [64]
+x_size_in = [256]
+y_size_in = [128]
 r_in = [0]
 
 x_out = [0]
 y_out = [0]
-x_size_out = [80]
-y_size_out = [40]
+x_size_out = [64]
+y_size_out = [32]
 r_out = [0]
 
 col = [0]
@@ -189,13 +189,9 @@ while True:
 
 	cvui.text(frame, 460, 85, 'X Offset:')
 	cvui.counter(frame, 540, 80, offset_x)
-	if (offset_x[0] < 0):
-		offset_x[0] = 0
 	
 	cvui.text(frame, 460, 115, 'Y Offset:')
 	cvui.counter(frame, 540, 110, offset_y)
-	if (offset_y[0] < 0):
-		offset_y[0] = 0
 
 	if cvui.button(frame, 170, 5, "Smart config"):
 		if (id[0] > 0):

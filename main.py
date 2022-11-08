@@ -28,6 +28,9 @@ z = 0
 
 # ---------------------------------------------
 
+offset_x = 0
+offset_y = 0
+
 # i = 0
 # k = 0
 
@@ -36,11 +39,11 @@ module_size = (256, 128)
 
 
 def json_mod_loader():
-	global rectMod, matrice_output, hide_input, hide_output
+	global rectMod, matrice_output, hide_input, hide_output, offset_x, offset_y
 	with open('config.json') as json_file:
 		data = json.load(json_file)
-	# offset_x = modf.data_searcher(data, "offset_x")
-	# offset_y = modf.data_searcher(data, "offset_y")
+	offset_x = modf.data_searcher(data, "offset_x")
+	offset_y = modf.data_searcher(data, "offset_y")
 	matrice_output = (modf.data_searcher(data, "col"), modf.data_searcher(data, "row"))
 	hide_input = modf.data_searcher(data, "hide_input")
 	hide_output = modf.data_searcher(data, "hide_output")
@@ -48,15 +51,6 @@ def json_mod_loader():
 	data_mod = modf.data_searcher(data, "modules")
 	for r in data_mod:
 		rectMod.append(Module((data_mod[r]["in_pos_x"], data_mod[r]["in_pos_y"]), (data_mod[r]["in_size_x"], data_mod[r]["in_size_y"]), data_mod[r]["in_rotation"], (data_mod[r]["out_pos_x"], data_mod[r]["out_pos_y"]), (data_mod[r]["out_size_x"], data_mod[r]["out_size_y"]), data_mod[r]["out_rotation"]))
-
-
-# def add_module(event, x, y, flags, params):
-# 	global module_size, output_mod_size
-# 	if event == cv2.EVENT_LBUTTONDOWN:
-# 		if (len(rectMod) < matrice_output[0] * matrice_output[1]):
-# 			rectMod.append(Module((x, y), module_size, 0, output_mod_size))
-# 			i = x
-# 			k = y
 
 def img_input_calculator(img):
 	img_in = np.array(img)
@@ -67,42 +61,20 @@ def img_input_calculator(img):
 	cv2.imshow('Secret Capture', img_in)
 
 def img_output_calculator(img):
+	global rectMod
 	img_out_pre = []
 	for mod in rectMod:
 		img_out_pre.append(mod.out_image)
 	img_out = build_montages(img_out_pre, rectMod[0].out_size, matrice_output)
 	for mod in img_out:
+		mod = cv2.copyMakeBorder(mod, 0, 0, 12, 0, cv2.BORDER_CONSTANT, None, value = 0)
+		# mod = cv2.rectangle(mod, )
 		cv2.imshow('Output', mod)
-
-def last_rect_pos():
-	global i, k, rectMod, module_size
-	if len(rectMod):
-		i = rectMod[len(rectMod) - 1].pos[0] + module_size[0]
-		k = rectMod[len(rectMod) - 1].pos[1]
-		if i > SCREEN_SIZE[0] or i + capture_area[0] > SCREEN_SIZE[0] or (len(rectMod) % matrice_output[0] == 0 and len(rectMod) > 0):
-			i = rectMod[0].pos[0]
-			k += module_size[1]
+	cv2.moveWindow('Output', offset_x - 20, offset_y - 31)
 
 def controls():
 	global capture_area, rectMod, module_size, matrice_output
 	key = cv2.waitKey(1)
-	# if key == ord('+'):
-	# 	if (len(rectMod) < matrice_output[0] * matrice_output[1]):
-	# 		rectMod.append(Module((i, k), module_size, 0, output_mod_size))
-	# elif key == ord('-') and len(rectMod) > 0:
-	# 	rectMod.pop()
-	# elif key == ord('0') and len(rectMod) > 0:
-	# 	rectMod.clear()
-	# elif key == ord('w'):
-	# 	rectMod[len(rectMod) - 1].up()
-	# elif key == ord('a'):
-	# 	rectMod[len(rectMod) - 1].left()
-	# elif key == ord('s'):
-	# 	rectMod[len(rectMod) - 1].down()
-	# elif key == ord('d'):
-	# 	rectMod[len(rectMod) - 1].right()
-	# elif key == ord('r'):
-	# 	rectMod[len(rectMod) - 1].rotate_in()
 	if key == 27:
 		return 1
 	if not hide_input:
@@ -120,12 +92,17 @@ def mod_aquire(img):
 	img_mod = cv2.cvtColor(img_mod, cv2.COLOR_BGR2RGB)
 	for mod in rectMod:
 		mod.image = img_mod[mod.pos[1]:mod.endpoint[1], mod.pos[0]:mod.endpoint[0]]
+		if mod.rot == 90:
+			mod.image = cv2.rotate(mod.image, cv2.ROTATE_90_CLOCKWISE)
+		elif mod.rot == 180:
+			mod.image = cv2.rotate(mod.image, cv2.ROTATE_180)
+		elif mod.rot == 270:
+			mod.image = cv2.rotate(mod.image, cv2.ROTATE_90_COUNTERCLOCKWISE)
 		# mod.image = img_mod[mod.pos[0]:mod.endpoint[0], mod.pos[1]:mod.endpoint[1]]
 		mod.scale()
 
 while True:
 	start_time = time.time()
-	# last_rect_pos()
 
 	z %= 100000
 	if z == 0:
