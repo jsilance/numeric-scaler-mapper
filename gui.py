@@ -95,80 +95,128 @@ while True:
 
 
 # -------------------------INPUT------------------------------
-
+	decalage_button_x = 35
 	cvui.text(frame, 40, 55, 'Module input')
 	
+
 	cvui.text(frame, 10, 85, 'X Position:')
 	x_in[0] = mod[id[0]].pos_x
-	cvui.counter(frame, 90, 80, x_in)
+	if(cvui.button(frame, 65 + decalage_button_x, 80, 22, 22, "-")):
+		if mod[id[0]].size_x > mod[id[0]].size_y:
+			x_in[0] -= mod[id[0]].size_y
+		else:
+			x_in[0] -= mod[id[0]].size_x
+	cvui.counter(frame, 90 + decalage_button_x, 80, x_in)
 	if (x_in[0] < 0):
 		x_in[0] = 0
+	if(cvui.button(frame, 185 + decalage_button_x, 80, 22, 22, "+")):
+		if mod[id[0]].size_x > mod[id[0]].size_y:
+			x_in[0] += mod[id[0]].size_y
+		else:
+			x_in[0] += mod[id[0]].size_x
 	mod[id[0]].pos_x = x_in[0]
+
 
 	cvui.text(frame, 10, 115, 'Y Position:')
 	y_in[0] = mod[id[0]].pos_y
-	cvui.counter(frame, 90, 110, y_in)
+	if(cvui.button(frame, 65 + decalage_button_x, 110, 22, 22, "-")):
+		if mod[id[0]].size_x > mod[id[0]].size_y:
+			y_in[0] -= mod[id[0]].size_y
+		else:
+			y_in[0] -= mod[id[0]].size_x
+	cvui.counter(frame, 90 + decalage_button_x, 110, y_in)
 	if (y_in[0] < 0):
 		y_in[0] = 0
+	if(cvui.button(frame, 185 + decalage_button_x, 110, 22, 22, "+")):
+		if mod[id[0]].size_x > mod[id[0]].size_y:
+			y_in[0] += mod[id[0]].size_y
+		else:
+			y_in[0] += mod[id[0]].size_x
 	mod[id[0]].pos_y = y_in[0]
+
 
 	cvui.text(frame, 10, 145, 'X Size:')
 	x_size_in[0] = mod[id[0]].size_x
-	cvui.counter(frame, 90, 140, x_size_in)
+	cvui.counter(frame, 90 + decalage_button_x, 140, x_size_in)
 	if (x_size_in[0] < 1):
 		x_size_in[0] = 1
 	mod[id[0]].size_x = x_size_in[0]
 
+
 	cvui.text(frame, 10, 175, 'Y Size:')
 	y_size_in[0] = mod[id[0]].size_y
-	cvui.counter(frame, 90, 170, y_size_in)
+	cvui.counter(frame, 90 + decalage_button_x, 170, y_size_in)
 	if (y_size_in[0] < 1):
 		y_size_in[0] = 1
 	mod[id[0]].size_y = y_size_in[0]
 
+
 	cvui.text(frame, 10, 205, 'Rotation:')
 	r_in[0] = mod[id[0]].rot
-	cvui.counter(frame, 90, 200, r_in, 90)
+	cvui.counter(frame, 90 + decalage_button_x, 200, r_in, 90)
 	if (r_in[0] < 0):
 		r_in[0] = 270
 	r_in[0] %= 360
 	mod[id[0]].rot = r_in[0]
 
+
 # ----------------------OUTPUT-----------------------------
 
-	cvui.text(frame, 240, 55, 'Module output')
+	decalage_x = 60
 
-	cvui.text(frame, 210, 85, 'X Position:')
+	cvui.text(frame, 240 + decalage_x, 55, 'Module output')
+
+	cvui.text(frame, 210 + decalage_x, 85, 'X Position:')
 	x_out[0] = mod[id[0]].out_pos_x
-	cvui.counter(frame, 290, 80, x_out)
+	if(cvui.button(frame, 325 + decalage_button_x, 80, 22, 22, "-")):
+		if mod[id[0]].out_size_x > mod[id[0]].out_size_y:
+			x_out[0] -= mod[id[0]].out_size_y
+		else:
+			x_out[0] -= mod[id[0]].out_size_x
+	cvui.counter(frame, 290 + decalage_x + decalage_button_x, 80, x_out)
 	if (x_out[0] < 0):
 		x_out[0] = 0
+	if(cvui.button(frame, 445 + decalage_button_x, 80, 22, 22, "+")):
+		if mod[id[0]].out_size_x > mod[id[0]].out_size_y:
+			x_out[0] += mod[id[0]].out_size_y
+		else:
+			x_out[0] += mod[id[0]].out_size_x
 	mod[id[0]].out_pos_x = x_out[0]
 
-	cvui.text(frame, 210, 115, 'Y Position:')
+	cvui.text(frame, 210 + decalage_x, 115, 'Y Position:')
 	y_out[0] = mod[id[0]].out_pos_y
-	cvui.counter(frame, 290, 110, y_out)
+	if(cvui.button(frame, 325 + decalage_button_x, 110, 22, 22, "-")):
+		if mod[id[0]].out_size_x > mod[id[0]].out_size_y:
+			y_out[0] -= mod[id[0]].out_size_y
+		else:
+			y_out[0] -= mod[id[0]].out_size_x
+	cvui.counter(frame, 290 + decalage_x + decalage_button_x, 110, y_out)
 	if (y_out[0] < 0):
 		y_out[0] = 0
+	if(cvui.button(frame, 445 + decalage_button_x, 110, 22, 22, "+")):
+		if mod[id[0]].out_size_x > mod[id[0]].out_size_y:
+			y_out[0] += mod[id[0]].out_size_y
+		else:
+			y_out[0] += mod[id[0]].out_size_x
 	mod[id[0]].out_pos_y = y_out[0]
 
-	cvui.text(frame, 210, 145, 'X Size:')
+	cvui.text(frame, 210 + decalage_x, 145, 'X Size:')
 	x_size_out[0] = mod[id[0]].out_size_x
-	cvui.counter(frame, 290, 140, x_size_out)
+	cvui.counter(frame, 290 + decalage_x + decalage_button_x, 140, x_size_out)
 	if (x_size_out[0] < 1):
 		x_size_out[0] = 1
 	mod[id[0]].out_size_x = x_size_out[0]
 
-	cvui.text(frame, 210, 175, 'Y Size:')
+	cvui.text(frame, 210 + decalage_x, 175, 'Y Size:')
 	y_size_out[0] = mod[id[0]].out_size_y
-	cvui.counter(frame, 290, 170, y_size_out)
+	cvui.counter(frame, 290 + decalage_x + decalage_button_x, 170, y_size_out)
 	if (y_size_out[0] < 1):
 		y_size_out[0] = 1
 	mod[id[0]].out_size_y = y_size_out[0]
 
-	cvui.text(frame, 210, 205, 'Rotation:')
+	cvui.text(frame, 210 + decalage_x, 205, 'Rotation:')
 	r_out[0] = mod[id[0]].out_rot
-	cvui.counter(frame, 290, 200, r_out, 90)
+	cvui.counter(frame, 290 + decalage_x + decalage_button_x, 200, r_out, 90)
 	if (r_out[0] < 0):
 		r_out[0] = 270
 	r_out[0] %= 360
@@ -177,21 +225,23 @@ while True:
 
 # -----------------------AUTRES--------------------
 
-	cvui.text(frame, 555, 15, 'Col:')
+	global_other_decay_x = 50
+
+	cvui.text(frame, 555,  15, 'Col:')
 	cvui.counter(frame, 590, 10, col)
 	if (col[0] < 1):
 		col[0] = 1
 
-	cvui.text(frame, 555, 45, 'Row:')
+	cvui.text(frame, 555,  45, 'Row:')
 	cvui.counter(frame, 590, 40, lin)
 	if (lin[0] < 1):
 		lin[0] = 1
 
-	cvui.text(frame, 460, 85, 'X Offset:')
-	cvui.counter(frame, 540, 80, offset_x)
+	cvui.text(frame, 460 + global_other_decay_x,  85, 'X Offset:')
+	cvui.counter(frame, 540 + global_other_decay_x,  80, offset_x)
 	
-	cvui.text(frame, 460, 115, 'Y Offset:')
-	cvui.counter(frame, 540, 110, offset_y)
+	cvui.text(frame, 460 + global_other_decay_x,  115, 'Y Offset:')
+	cvui.counter(frame, 540 + global_other_decay_x,  110, offset_y)
 
 	if cvui.button(frame, 170, 5, "Smart config"):
 		if (id[0] > 0):
@@ -209,9 +259,9 @@ while True:
 		os.remove("config.json")
 		break
 
-	cvui.checkbox(frame, 460, 150, 'Hide Input Window', in_win)
+	cvui.checkbox(frame, 460 + global_other_decay_x,  150, 'Hide Input Window', in_win)
 
-	cvui.checkbox(frame, 460, 180, 'Hide Output Window', out_win)
+	cvui.checkbox(frame, 460 + global_other_decay_x,  180, 'Hide Output Window', out_win)
 	
 	cvui.text(frame, 10, 10, 'Box id:')
 	id[0] += 1
