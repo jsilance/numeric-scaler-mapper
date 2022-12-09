@@ -23,6 +23,7 @@ capture_area = (0, 0, 1920, 1080)
 matrice_output = (1, 1)
 hide_input = False
 hide_output = False
+hide_number = True
 
 z = 0
 
@@ -39,7 +40,7 @@ module_size = (256, 128)
 
 
 def json_mod_loader():
-	global rectMod, matrice_output, hide_input, hide_output, offset_x, offset_y
+	global rectMod, matrice_output, hide_input, hide_output, offset_x, offset_y, hide_number
 	with open('config.json') as json_file:
 		data = json.load(json_file)
 	offset_x = modf.data_searcher(data, "offset_x")
@@ -47,6 +48,7 @@ def json_mod_loader():
 	matrice_output = (modf.data_searcher(data, "col"), modf.data_searcher(data, "row"))
 	hide_input = modf.data_searcher(data, "hide_input")
 	hide_output = modf.data_searcher(data, "hide_output")
+	hide_number = modf.data_searcher(data, "hide_number")
 
 	data_mod = modf.data_searcher(data, "modules")
 	for r in data_mod:
@@ -55,7 +57,12 @@ def json_mod_loader():
 def img_input_calculator(img):
 	img_in = np.array(img)
 	img_in = cv2.cvtColor(img_in, cv2.COLOR_BGR2RGB)
+	i = 1
 	for r in rectMod:
+		if (hide_number == False):
+			org = (int((r.pos[0] + r.endpoint[0]) / 2) - 100, int((r.pos[1] + r.endpoint[1]) / 2))
+			r.image = cv2.putText(img_in, str(i), org, cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 255), 10)
+			i += 1
 		img_in = cv2.rectangle(img_in, r.pos, r.endpoint, (127, 63, 63), 2)
 	
 	cv2.imshow('Secret Capture', img_in)
@@ -68,9 +75,10 @@ def img_output_calculator(img):
 	img_out = build_montages(img_out_pre, rectMod[0].out_size, matrice_output)
 	for mod in img_out:
 		mod = cv2.copyMakeBorder(mod, 0, 0, 12, 0, cv2.BORDER_CONSTANT, None, value = 0)
+
 		# mod = cv2.rectangle(mod, )
 		cv2.imshow('Output', mod)
-	cv2.moveWindow('Output', offset_x - 20, offset_y - 31)
+	cv2.moveWindow('Output', offset_x - 20, offset_y - 35)
 
 def controls():
 	global capture_area, rectMod, module_size, matrice_output
@@ -90,6 +98,7 @@ def mod_aquire(img):
 		pass
 	img_mod = np.array(img)
 	img_mod = cv2.cvtColor(img_mod, cv2.COLOR_BGR2RGB)
+	i = 1
 	for mod in rectMod:
 		mod.image = img_mod[mod.pos[1]:mod.endpoint[1], mod.pos[0]:mod.endpoint[0]]
 		if mod.rot == 90:
@@ -98,7 +107,11 @@ def mod_aquire(img):
 			mod.image = cv2.rotate(mod.image, cv2.ROTATE_180)
 		elif mod.rot == 270:
 			mod.image = cv2.rotate(mod.image, cv2.ROTATE_90_COUNTERCLOCKWISE)
-		# mod.image = img_mod[mod.pos[0]:mod.endpoint[0], mod.pos[1]:mod.endpoint[1]]
+		if (hide_number == False):
+			org = (int((mod.pos[0] + mod.endpoint[0]) / 2), int((mod.pos[1] + mod.endpoint[1]) / 2))
+			mod.image = cv2.putText(mod.image, str(i), org, cv2.FONT_HERSHEY_SIMPLEX, 10, (255, 255, 255), 20)
+			i += 1
+		
 		mod.scale()
 
 while True:

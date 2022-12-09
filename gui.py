@@ -27,6 +27,7 @@ r_out = [0]
 
 col = [0]
 lin = [0]
+numbers = [0]
 
 offset_x = [0]
 offset_y = [0]
@@ -45,6 +46,7 @@ def json_converter(data):
 	json_updator(data, "row", lin)
 	json_updator(data, "hide_input", in_win)
 	json_updator(data, "hide_output", out_win)
+	json_updator(data, "hide_number", numbers)
 
 	json_module_updator(data, id, "in_pos_x", x_in)
 	json_module_updator(data, id, "in_pos_y", y_in)
@@ -72,6 +74,7 @@ def json_init_data(offset_x, offset_y, column, row):
 	data["row"] = row
 	data["hide_input"] = True
 	data["hide_output"] = True
+	data["hide_number"]	= True
 	data["modules"] = {}
 	return data
 
